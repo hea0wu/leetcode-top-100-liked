@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class SlidingWindow {
     
     // 3.无重复字符的最长字串：https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=study-plan-v2&envId=top-100-liked
@@ -25,8 +28,28 @@ public class SlidingWindow {
 
 
 
-    // 
-
+    // 438.找到字符串中所有字母异位词：https://leetcode.cn/problems/find-all-anagrams-in-a-string/description/?envType=study-plan-v2&envId=top-100-liked
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> ans = new ArrayList<>();
+        int[] cnt = new int[26]; // 统计 p 的每种字母的出现次数
+        for (char c : p.toCharArray()) {
+            cnt[c - 'a']++;
+        }
+        int left = 0;
+        for (int right = 0; right < s.length(); right++) {
+            int c = s.charAt(right) - 'a';
+            cnt[c]--; // 右端点字母进入窗口
+            while (cnt[c] < 0) { // 字母 c 太多了
+                cnt[s.charAt(left) - 'a']++; // 左端点字母离开窗口
+                left++;
+            }
+            if (right - left + 1 == p.length()) { // s' 和 p 的每种字母的出现次数都相同
+                ans.add(left); // s' 左端点下标加入答案
+            }
+        }
+        return ans;
+    }
+    // 题解：https://leetcode.cn/problems/find-all-anagrams-in-a-string/solutions/2969498/liang-chong-fang-fa-ding-chang-hua-chuan-14pd/?envType=study-plan-v2&envId=top-100-liked
 
 
 }
